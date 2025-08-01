@@ -45,7 +45,7 @@ function Events ({ className = '', emptyLabel, error, eventClassName, events, la
 
   const header = useMemo<[React.ReactNode?, string?, number?][]>(
     () => [
-      [label || t('recent events'), 'start']
+      [label || 'Latest Events', 'start']
     ],
     [label, t]
   );

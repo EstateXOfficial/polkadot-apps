@@ -115,6 +115,10 @@ const StyledArticle = styled.article`
   justify-content: flex-end;
   padding: 0 1.5rem;
 
+  label {
+    text-transform: capitalize;
+  }
+
   .ui--FormatBalance .balance-postfix {
     opacity: 1;
   }
