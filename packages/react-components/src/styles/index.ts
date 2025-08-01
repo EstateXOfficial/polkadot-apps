@@ -485,7 +485,7 @@ export default createGlobalStyle<Props>(({ uiHighlight }: Props) => `
   }
 
   h1, h2, h3, h4, h5 {
-    color: var(--color-header);
+    color: var(--primary-estate);
     font: var(--font-sans);
     font-weight: var(--font-weight-header);
     margin-bottom: 0.25rem;
