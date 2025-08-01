@@ -48,7 +48,7 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
 const StyledNavLink = styled(NavLink)`
   align-items: center;
   display: flex;
-  color: #8B8B8B;
+  color: var(--primary-estate);
   height: 100%;
   padding: 0 1.5rem;
   position: relative;
@@ -78,7 +78,7 @@ const StyledNavLink = styled(NavLink)`
   }
 
   &.active {
-    color: var(--color-text) !important;
+    color: var(--primary-estate) !important;
     font-weight: var(--font-weight-normal);
 
     &:hover {
