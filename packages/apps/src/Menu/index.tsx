@@ -1,21 +1,21 @@
 // Copyright 2017-2025 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Route, Routes } from '@polkadot/apps-routing/types';
+/*import type { Route, Routes } from '@polkadot/apps-routing/types';
 import type { ApiProps } from '@polkadot/react-api/types';
-import type { AccountId } from '@polkadot/types/interfaces';
-import type { Group, Groups, ItemRoute } from './types.js';
+import type { AccountId } from '@polkadot/types/interfaces';*/
+import type { ItemRoute } from './types.js';
 
-import React, { useMemo, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useRef } from 'react';
+// import { useLocation } from 'react-router-dom';
 
-import createRoutes from '@polkadot/apps-routing';
+// import createRoutes from '@polkadot/apps-routing';
 import { styled } from '@polkadot/react-components';
-import { useAccounts, useApi, useCall, useTeleport } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 
-import { findMissingApis } from '../endpoint.js';
+// import { findMissingApis } from '../endpoint.js';
 import { useTranslation } from '../translate.js';
-import Grouping from './Grouping.js';
+// import Grouping from './Grouping.js';
 import Item from './Item.js';
 import NodeInfo from './NodeInfo.js';
 import Logo from './Logo.js';
@@ -41,6 +41,7 @@ function createExternals (t: (key: string, optionsOrText?: string | { replace: R
   ];
 }
 
+/*
 function checkVisible ({ api, isApiConnected, isApiReady, isDevelopment: isApiDevelopment }: ApiProps, allowTeleport: boolean, hasAccounts: boolean, hasSudo: boolean, { isDevelopment, isHidden, needsAccounts, needsApi, needsApiCheck, needsApiInstances, needsSudo, needsTeleport }: Route['display']): boolean {
   if (isHidden) {
     return false;
@@ -60,7 +61,9 @@ function checkVisible ({ api, isApiConnected, isApiReady, isDevelopment: isApiDe
 
   return findMissingApis(api, needsApi, needsApiInstances, needsApiCheck).length === 0;
 }
+*/
 
+/*
 function extractGroups (routing: Routes, groupNames: Record<string, string>, apiProps: ApiProps, allowTeleport: boolean, hasAccounts: boolean, hasSudo: boolean): Group[] {
   return Object
     .values(
@@ -85,17 +88,20 @@ function extractGroups (routing: Routes, groupNames: Record<string, string>, api
     }))
     .filter(({ routes }) => routes.length);
 }
+*/
 
 function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+/*
   const { allAccounts, hasAccounts } = useAccounts();
+*/
   const apiProps = useApi();
-  const { allowTeleport } = useTeleport();
+/*  const { allowTeleport } = useTeleport();
   const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key);
-  const location = useLocation();
+  const location = useLocation();*/
 
   const externalRef = useRef(createExternals(t));
-  const routeRef = useRef(createRoutes(t));
+  /*const routeRef = useRef(createRoutes(t));
 
   const groupRef = useRef({
     accounts: t('Accounts'),
@@ -109,9 +115,9 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const hasSudo = useMemo(
     () => !!sudoKey && allAccounts.some((a) => sudoKey.eq(a)),
     [allAccounts, sudoKey]
-  );
+  );*/
 
-  const visibleGroups = useMemo(
+/*  const visibleGroups = useMemo(
     () => extractGroups(routeRef.current, groupRef.current, apiProps, allowTeleport, hasAccounts, hasSudo),
     [allowTeleport, apiProps, hasAccounts, hasSudo]
   );
@@ -121,7 +127,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
       location.pathname.startsWith(`/${name}`)
     ) || null,
     [location]
-  );
+  );*/
 
   return (
     <StyledDiv className={`${className}${(!apiProps.isApiReady || !apiProps.isApiConnected) ? ' isLoading' : ''}`}>
@@ -132,14 +138,14 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
           <ChainInfo />
 */}
           <ul className='menuItems'>
-            {visibleGroups.map(({ name, routes }): React.ReactNode => (
+           {/* {visibleGroups.map(({ name, routes }): React.ReactNode => (
               <Grouping
                 isActive={!!activeRoute && activeRoute?.group === name?.toLowerCase()}
                 key={name}
                 name={name}
                 routes={routes}
               />
-            ))}
+            ))}*/}
           </ul>
         </div>
         <div className='menuSection media--1200'>

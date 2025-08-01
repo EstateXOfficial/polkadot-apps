@@ -131,7 +131,7 @@ const StyledArticle = styled.article`
     text-align: right;
 
     > .ui--Labelled-content {
-      color: var(--color-header);
+      color: var(--primary-estate);
     }
 
     > * {

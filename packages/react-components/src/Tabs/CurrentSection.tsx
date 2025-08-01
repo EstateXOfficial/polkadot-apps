@@ -32,7 +32,11 @@ const StyledDiv = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
-  color: var(--color-text);
+  color: var(--primary-estate);
+
+  svg path {
+    fill:  var(--primary-estate);
+  }
 
   .ui--Icon {
     margin-right: 0.85rem;
