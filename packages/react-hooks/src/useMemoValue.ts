@@ -58,7 +58,7 @@ export function getMemoValue <T> (ref: Ref<T>, value: T): T {
   return ref.current.value;
 }
 
-// NOTE: Generic, cannot be used in named hook
+// NOTE: Generic, cannot be used in named hooks
 export function useMemoValue <T> (value: T): T {
   const ref = useRef<State<T> | null>(null);
 

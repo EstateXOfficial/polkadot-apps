@@ -151,7 +151,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
         [t('hash'), 'start'],
         [t('parent'), 'start'],
         [t('next'), 'start'],
-        [t('extrinsics'), 'start media--1300'],
+        [t('transactions'), 'start media--1300'],
         [t('state'), 'start media--1200'],
         [runtimeVersion ? `${runtimeVersion.specName.toString()}/${runtimeVersion.specVersion.toString()}` : undefined, 'media--1000']
       ]

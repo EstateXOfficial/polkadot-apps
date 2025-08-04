@@ -1469,7 +1469,7 @@
   "extrinsic count": "",
   "extrinsic hash": "",
   "extrinsics": "",
-  "extrinsics (last {{n}} blocks)": "",
+  "transactions (last {{n}} blocks)": "",
   "file cid": "",
   "file content error": "",
   "file error": "",

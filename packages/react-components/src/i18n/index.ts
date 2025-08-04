@@ -20,11 +20,8 @@ const languageDetector = new (LanguageDetector as unknown as Newable<LanguageDet
 
 languageDetector.addDetector({
   lookup: () => {
-    const i18nLang = settings.i18nLang;
-
-    return i18nLang === LANGUAGE_DEFAULT
-      ? undefined
-      : i18nLang;
+    // Always return English language regardless of settings
+    return 'en';
   },
   name: 'i18nLangDetector'
 });
@@ -94,14 +91,8 @@ i18next
   );
 
 settings.on('change', (settings): void => {
-  (
-    settings.i18nLang === LANGUAGE_DEFAULT
-      // If we want to use the default language, we need to pass no
-      // actual param through here
-      // https://github.com/i18next/i18next/blob/21eac5a605601ec1067aac3583c6ec6bc2ecd3b7/src/i18next.js#L366
-      ? i18next.changeLanguage()
-      : i18next.changeLanguage(settings.i18nLang)
-  ).catch(console.error);
+  // Always set English language regardless of settings
+  i18next.changeLanguage('en').catch(console.error);
 });
 
 export default i18next;

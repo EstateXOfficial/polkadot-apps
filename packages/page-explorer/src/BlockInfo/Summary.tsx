@@ -114,7 +114,7 @@ function Summary ({ events, maxBlockWeight, maxProofSize, signedBlock }: Props):
             ? formatNumber(events.length)
             : <span className='--tmp'>99</span>}
         </CardSummary>
-        <CardSummary label={t('extrinsic count')}>
+        <CardSummary label={t('transactions count')}>
           {signedBlock
             ? formatNumber(signedBlock.block.extrinsics.length)
             : <span className='--tmp'>99</span>}

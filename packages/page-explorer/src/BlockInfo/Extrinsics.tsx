@@ -27,7 +27,7 @@ function Extrinsics ({ blockNumber, className = '', events, label, maxBlockWeigh
 
   const header = useMemo<[React.ReactNode?, string?, number?][]>(
     () => [
-      [label || t('extrinsics'), 'start', 2],
+      [label || t('transactions'), 'start', 2],
       [t('events'), 'start media--1000', 2],
       [t('weight'), 'media--1400'],
       [undefined, 'address media--1200']
@@ -38,7 +38,7 @@ function Extrinsics ({ blockNumber, className = '', events, label, maxBlockWeigh
   return (
     <Table
       className={className}
-      empty={t('No extrinsics available')}
+      empty={t('No transactions available')}
       header={header}
       isFixed
     >
@@ -47,7 +47,7 @@ function Extrinsics ({ blockNumber, className = '', events, label, maxBlockWeigh
           blockNumber={blockNumber}
           events={events}
           index={index}
-          key={`extrinsic:${index}`}
+          key={`transactions:${index}`}
           maxBlockWeight={maxBlockWeight}
           value={extrinsic}
           withLink={withLink}
