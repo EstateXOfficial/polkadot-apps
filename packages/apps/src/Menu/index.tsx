@@ -19,6 +19,7 @@ import { useTranslation } from '../translate.js';
 import Item from './Item.js';
 import NodeInfo from './NodeInfo.js';
 import Logo from './Logo.js';
+import {Link} from "react-router-dom";
 
 interface Props {
   className?: string;
@@ -132,7 +133,9 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   return (
     <StyledDiv className={`${className}${(!apiProps.isApiReady || !apiProps.isApiConnected) ? ' isLoading' : ''}`}>
       <div className='menuContainer'>
-        <Logo />
+        <Link to={'/dashboard'}>
+          <Logo />
+        </Link>
         <div className='menuSection'>
 {/*
           <ChainInfo />

@@ -106,7 +106,7 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
 
   const extrinsics = useTxBatch(batchInner, BATCH_OPTS);
 
-  // NOTE The activityFrom & activityTo checks only checks that the hook has received
+  // NOTE The activityFrom & activityTo checks only checks that the hooks has received
   // values, not that any values are contained. If we do a length check, that would mean
   // we could only delegate to accounts with activity. Instead, we just check that we
   // have the results from the on-chain data received via useActivity*

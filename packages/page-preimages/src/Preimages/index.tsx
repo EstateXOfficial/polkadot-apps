@@ -28,7 +28,7 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
   const [allPreImagesInfo, setAllPreImagesInfo] = useState<TPreimage[]>([]);
   const hashes = usePreimages();
 
-  // HACK to concat all preimages info without creating a new hook, just for multiple hashes
+  // HACK to concat all preimages info without creating a new hooks, just for multiple hashes
   const onSetAllPreImagesInfo = useCallback((info: TPreimage) => {
     setAllPreImagesInfo((preimages) => ([
       ...preimages.filter((e) => e.proposalHash !== info.proposalHash),

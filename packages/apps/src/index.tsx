@@ -26,6 +26,10 @@ if (typeof window !== 'undefined') {
   // Force set the correct endpoint
   console.log('Setting ESX endpoint to wss://rpc1-weu-testnet.esx.network');
   window.localStorage.setItem('settings.apiUrl', 'wss://rpc1-weu-testnet.esx.network');
+  
+  // Force English language
+  window.localStorage.setItem('settings.i18nLang', 'en');
+  console.log('Force English language');
 }
 
 const rootId = 'root';

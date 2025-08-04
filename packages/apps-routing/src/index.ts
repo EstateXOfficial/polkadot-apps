@@ -49,6 +49,7 @@ import transfer from './transfer.js';
 import treasury from './treasury.js';
 // import utilities from './utilities.js';
 import whitelist from './whitelist.js';
+import dashboard from './dashboard.js';
 
 export default function create (t: TFunction): Routes {
   return [
@@ -105,5 +106,7 @@ export default function create (t: TFunction): Routes {
     // js(t),
     // utilities(t),
     // settings(t)
+
+    dashboard(t),
   ];
 }

@@ -125,13 +125,13 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
       {
         blocks: [t('bytes'), t('average')],
         events: [t('events'), t('system'), t('average')],
-        extrinsics: [t('extrinsics'), t('average')],
+        extrinsics: [t('transactions'), t('average')],
         times: [t('blocktime'), t('average')]
       },
       {
         blocks: t('blocksize (last {{n}} blocks)', { replace: { n: maxItems } }),
         events: t('events (last {{n}} blocks)', { replace: { n: maxItems } }),
-        extrinsics: t('extrinsics (last {{n}} blocks)', { replace: { n: maxItems } }),
+        extrinsics: t('transactions (last {{n}} blocks)', { replace: { n: maxItems } }),
         times: t('blocktimes (last {{n}} blocks)', { replace: { n: maxItems } })
       }
     ],
