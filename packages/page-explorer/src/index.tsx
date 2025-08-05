@@ -11,6 +11,7 @@ import { Tabs } from '@polkadot/react-components';
 import { useApi, useBlockAuthors, useBlockEvents } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
+import AccountBlock from './AccountBlock/index.js';
 import Api from './Api/index.js';
 import BlockInfo from './BlockInfo/index.js';
 import Latency from './Latency/index.js';
@@ -53,6 +54,12 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
       // isHidden: true,
       name: 'api',
       text: t('API stats')
+    },
+    {
+      hasParams: true,
+      isHidden: true,
+      name: 'account-query',
+      text: t('Account Information')
     }
   ];
 }
@@ -97,6 +104,10 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
           <Route
             element={<BlockInfo />}
             path='query/:value?'
+          />
+          <Route
+            element={<AccountBlock />}
+            path='account-query/:value?'
           />
           <Route
             element={

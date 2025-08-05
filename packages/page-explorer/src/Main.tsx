@@ -10,7 +10,7 @@ import { Columar } from '@polkadot/react-components';
 
 import BlockHeaders from './BlockHeaders.js';
 import Events from './Events.js';
-import Query from './Query.js';
+// import Query from './Query.js';
 import Summary from './Summary.js';
 
 interface Props {
@@ -22,7 +22,7 @@ interface Props {
 function Main ({ eventCount, events, headers }: Props): React.ReactElement<Props> {
   return (
     <>
-      <Query />
+      {/* <Query /> */}
       <Summary eventCount={eventCount} />
       <Columar>
         <Columar.Column>

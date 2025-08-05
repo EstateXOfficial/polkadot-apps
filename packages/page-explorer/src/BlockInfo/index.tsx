@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import { useBestNumber } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
-import Query from '../Query.js';
+// import Query from '../Query.js';
 import BlockByHash from './ByHash.js';
 import BlockByNumber from './ByNumber.js';
 
@@ -36,7 +36,7 @@ function Entry (): React.ReactElement | null {
 
   return (
     <>
-      <Query />
+      {/* <Query /> */}
       <Component
         key={stateValue}
         value={stateValue}

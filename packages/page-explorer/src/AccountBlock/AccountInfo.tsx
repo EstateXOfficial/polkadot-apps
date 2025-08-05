@@ -1,16 +1,20 @@
+// [object Object]
+// SPDX-License-Identifier: Apache-2.0
+
 import React from 'react';
-import { styled } from '@polkadot/react-components';
+
+import { AddressMini, styled } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
-import { useAccountInfo } from '../../hooks/useAccountInfo.js';
-import { AddressMini } from '@polkadot/react-components';
+
+import { useAccountInfo } from './useAccountInfo.js';
 
 interface Props {
   address: string | null;
   className?: string;
 }
 
-function AccountInfo({ address, className }: Props): React.ReactElement<Props> | null {
-  const { balance, accountInfo, isLoading, error } = useAccountInfo(address);
+function AccountInfo ({ address, className }: Props): React.ReactElement<Props> | null {
+  const { accountInfo, balance, error, isLoading } = useAccountInfo(address);
 
   if (!address) {
     return null;
@@ -19,7 +23,7 @@ function AccountInfo({ address, className }: Props): React.ReactElement<Props> |
   if (error) {
     return (
       <StyledDiv className={className}>
-        <div className="error-message">
+        <div className='error-message'>
           {error}
         </div>
       </StyledDiv>
@@ -29,7 +33,7 @@ function AccountInfo({ address, className }: Props): React.ReactElement<Props> |
   if (isLoading) {
     return (
       <StyledDiv className={className}>
-        <div className="loading">
+        <div className='loading'>
           Loading account information...
         </div>
       </StyledDiv>
@@ -38,44 +42,38 @@ function AccountInfo({ address, className }: Props): React.ReactElement<Props> |
 
   return (
     <StyledDiv className={className}>
-      <div className="account-header">
+      <div className='account-header'>
         <h3>Account Information</h3>
       </div>
-
-      <div className="account-content">
-        <div className="account-address">
+      <div className='account-content'>
+        <div className='account-address'>
           <label>Address:</label>
           <AddressMini value={address} />
         </div>
-
         {balance && (
           <>
-            <div className="account-balance">
+            <div className='account-balance'>
               <label>Free Balance:</label>
               <FormatBalance value={balance.freeBalance} />
             </div>
-
-            <div className="account-balance">
+            <div className='account-balance'>
               <label>Available Balance:</label>
               <FormatBalance value={balance.availableBalance} />
             </div>
-
-            <div className="account-balance">
+            <div className='account-balance'>
               <label>Reserved Balance:</label>
               <FormatBalance value={balance.reservedBalance} />
             </div>
-
             {balance.lockedBalance && !balance.lockedBalance.isZero() && (
-              <div className="account-balance">
+              <div className='account-balance'>
                 <label>Nonce:</label>
                 <FormatBalance value={balance.lockedBalance} />
               </div>
             )}
           </>
         )}
-
         {accountInfo && (
-          <div className="account-nonce">
+          <div className='account-nonce'>
             <label>Nonce:</label>
             <span>{accountInfo.nonce.toString()}</span>
           </div>
