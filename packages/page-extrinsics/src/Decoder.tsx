@@ -15,6 +15,7 @@ import { Call as CallDisplay } from '@polkadot/react-params';
 import { assert, compactToU8a, isHex, u8aConcat, u8aEq } from '@polkadot/util';
 
 import Decoded from './Decoded.js';
+import TransactionDetails from './TransactionDetails.js';
 import { useTranslation } from './translate.js';
 
 interface Props {
@@ -147,6 +148,7 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
           />
         </>
       )}
+      <TransactionDetails extrinsic={decoded} />
       <Decoded
         extrinsic={decoded}
         isCall={isCall}

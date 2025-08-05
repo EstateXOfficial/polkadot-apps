@@ -18,7 +18,7 @@ import coretime from './coretime.js';
 import council from './council.js';
 import democracy from './democracy.js';
 import explorer from './explorer.js';
-// import extrinsics from './extrinsics.js';
+import extrinsics from './extrinsics.js';
 import fellowship from './fellowship.js';
 import files from './files.js';
 import gilt from './gilt.js';
@@ -97,7 +97,7 @@ export default function create (t: TFunction): Routes {
     // calendar(t),
     contracts(t),
     // storage(t),
-    // extrinsics(t),
+    extrinsics(t),
     // rpc(t),
     // runtime(t),
     signing(t),
