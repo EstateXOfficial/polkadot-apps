@@ -137,14 +137,24 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
           <Logo />
         </Link>
         <div className='menuSection'>
-          <Link 
+          <Link
             style={{
-              color: '#FFF', 
+              color: '#FFF',
               textDecoration: location.pathname.startsWith('/explorer') ? 'underline' : 'none'
-            }} 
+            }}
             to={'/explorer'}
           >
             Explorer
+          </Link>
+          <Link
+            style={{
+              color: '#FFF',
+              marginLeft: 15,
+              textDecoration: location.pathname.startsWith('/extrinsics') ? 'underline' : 'none'
+            }}
+            to={'/extrinsics'}
+          >
+            Transaction
           </Link>
 {/*
           <ChainInfo />

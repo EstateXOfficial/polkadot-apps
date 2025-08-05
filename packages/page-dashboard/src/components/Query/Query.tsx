@@ -29,12 +29,13 @@ function stateFromValue (value: string): State {
 }
 
 function Query ({ className = '', value: propsValue }: Props): React.ReactElement<Props> {
-  const [{ isValid, value }, setState] = useState(() => stateFromValue(propsValue || ''));
+  const [{ value }, setState] = useState(() => stateFromValue(propsValue || ''));
 
   const options: Option[] = [
-    { text: 'All', value: 'all' },
     { text: 'Hash', value: 'hash' },
-    { text: 'Block Number', value: 'blockNumber' }
+    { text: 'Block Number', value: 'blockNumber' },
+    { text: 'Transaction', value: 'transaction' },
+    { text: 'Address', value: 'address'}
   ];
 
   const _setHash = useCallback(
@@ -44,13 +45,30 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
 
   const [queryOpt, setQueryOpt] = useState<string>(options[0].value);
 
+
+  const getQueryUrl = useCallback((queryType: string, queryValue: string): string => {
+    switch (queryType) {
+      case 'hash':
+        return `/explorer/query/${queryValue}`;
+      case 'blockNumber':
+        return `/explorer/query/${queryValue}`;
+      case 'transaction':
+        return `/extrinsics/decode/${queryValue}`;
+      case 'address':
+        return `/explorer/account-query/${queryValue}`;
+      default:
+        return `/dashboard/query/${queryValue}`;
+    }
+  }, []);
+
   const _onQuery = useCallback(
     (): void => {
-      if (isValid && value.length !== 0) {
-        window.location.hash = `/dashboard/query/${value}`;
+      if (value.length !== 0) {
+        const queryUrl = getQueryUrl(queryOpt, value);
+        window.location.hash = queryUrl;
       }
     },
-    [isValid, value]
+    [value, queryOpt, getQueryUrl]
   );
 
   return (
@@ -59,11 +77,11 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
       <Input
         className='dashboard--query'
         defaultValue={propsValue}
-        isError={!isValid && value.length !== 0}
+        isError={value.length !== 0}
         isFull
         onChange={_setHash}
         onEnter={_onQuery}
-        placeholder='block hash or number to query'
+        placeholder='Search'
         withLabel={false}
       >
         <button
@@ -109,7 +127,7 @@ const StyledFDiv = styled.div`
       border-radius: 0px 4px 4px 0px;
     }
   }
-  
+
   .searchBtn {
     height: 43px;
     margin-left: -3px;
