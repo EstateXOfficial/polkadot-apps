@@ -175,7 +175,7 @@ function Input ({ autoFocus = false, children, className, defaultValue, icon, in
             : undefined
         }
         disabled={isDisabled || isLoading}
-        error={(!isDisabled && isError) || isDisabledError}
+        // error={(!isDisabled && isError) || isDisabledError}
         hidden={isHidden}
         iconPosition={
           isUndefined(icon)

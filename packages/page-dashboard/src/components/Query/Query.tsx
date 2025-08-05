@@ -6,6 +6,20 @@ import React, { useCallback, useState } from 'react';
 import { Dropdown, Input, styled } from '@polkadot/react-components';
 import { isHex } from '@polkadot/util';
 
+const QUERY_TYPES = {
+  HASH: 'hash',
+  BLOCK_NUMBER: 'blockNumber',
+  TRANSACTION: 'transaction',
+  ADDRESS: 'address'
+} as const;
+
+const URL_PATHS = {
+  EXPLORER_QUERY: '/explorer/query',
+  EXTRINSICS_DECODE: '/extrinsics/decode',
+  EXPLORER_ACCOUNT_QUERY: '/explorer/account-query',
+  DASHBOARD_QUERY: '/dashboard/query'
+} as const;
+
 interface Props {
   className?: string;
   value?: string;
@@ -29,12 +43,13 @@ function stateFromValue (value: string): State {
 }
 
 function Query ({ className = '', value: propsValue }: Props): React.ReactElement<Props> {
-  const [{ isValid, value }, setState] = useState(() => stateFromValue(propsValue || ''));
+  const [{ value }, setState] = useState(() => stateFromValue(propsValue || ''));
 
   const options: Option[] = [
-    { text: 'All', value: 'all' },
-    { text: 'Hash', value: 'hash' },
-    { text: 'Block Number', value: 'blockNumber' }
+    { text: 'Hash', value: QUERY_TYPES.HASH },
+    { text: 'Block Number', value: QUERY_TYPES.BLOCK_NUMBER },
+    { text: 'Transaction', value: QUERY_TYPES.TRANSACTION },
+    { text: 'Address', value: QUERY_TYPES.ADDRESS}
   ];
 
   const _setHash = useCallback(
@@ -44,13 +59,30 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
 
   const [queryOpt, setQueryOpt] = useState<string>(options[0].value);
 
+
+  const getQueryUrl = useCallback((queryType: string, queryValue: string): string => {
+    switch (queryType) {
+      case QUERY_TYPES.HASH:
+        return `${URL_PATHS.EXPLORER_QUERY}/${queryValue}`;
+      case QUERY_TYPES.BLOCK_NUMBER:
+        return `${URL_PATHS.EXPLORER_QUERY}/${queryValue}`;
+      case QUERY_TYPES.TRANSACTION:
+        return `${URL_PATHS.EXTRINSICS_DECODE}/${queryValue}`;
+      case QUERY_TYPES.ADDRESS:
+        return `${URL_PATHS.EXPLORER_ACCOUNT_QUERY}/${queryValue}`;
+      default:
+        return `${URL_PATHS.DASHBOARD_QUERY}/${queryValue}`;
+    }
+  }, []);
+
   const _onQuery = useCallback(
     (): void => {
-      if (isValid && value.length !== 0) {
-        window.location.hash = `/dashboard/query/${value}`;
+      if (value.length !== 0) {
+        const queryUrl = getQueryUrl(queryOpt, value);
+        window.location.hash = queryUrl;
       }
     },
-    [isValid, value]
+    [value, queryOpt, getQueryUrl]
   );
 
   return (
@@ -59,11 +91,11 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
       <Input
         className='dashboard--query'
         defaultValue={propsValue}
-        isError={!isValid && value.length !== 0}
+        isError={value.length !== 0}
         isFull
         onChange={_setHash}
         onEnter={_onQuery}
-        placeholder='block hash or number to query'
+        placeholder='Search'
         withLabel={false}
       >
         <button
@@ -109,7 +141,7 @@ const StyledFDiv = styled.div`
       border-radius: 0px 4px 4px 0px;
     }
   }
-  
+
   .searchBtn {
     height: 43px;
     margin-left: -3px;
