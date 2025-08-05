@@ -54,11 +54,14 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
         placeholder={t('block hash or number to query')}
         withLabel={false}
       >
-{/*        <Button
+        {/*        <Button
           icon='play'
           onClick={_onQuery}
         />*/}
-        <button onClick={_onQuery} className={'searchBtn'}>
+        <button
+          className={'searchBtn'}
+          onClick={_onQuery}
+        >
           Search
         </button>
       </Input>
