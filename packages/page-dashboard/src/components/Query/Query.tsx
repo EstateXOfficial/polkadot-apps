@@ -6,6 +6,20 @@ import React, { useCallback, useState } from 'react';
 import { Dropdown, Input, styled } from '@polkadot/react-components';
 import { isHex } from '@polkadot/util';
 
+const QUERY_TYPES = {
+  HASH: 'hash',
+  BLOCK_NUMBER: 'blockNumber',
+  TRANSACTION: 'transaction',
+  ADDRESS: 'address'
+} as const;
+
+const URL_PATHS = {
+  EXPLORER_QUERY: '/explorer/query',
+  EXTRINSICS_DECODE: '/extrinsics/decode',
+  EXPLORER_ACCOUNT_QUERY: '/explorer/account-query',
+  DASHBOARD_QUERY: '/dashboard/query'
+} as const;
+
 interface Props {
   className?: string;
   value?: string;
@@ -32,10 +46,10 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
   const [{ value }, setState] = useState(() => stateFromValue(propsValue || ''));
 
   const options: Option[] = [
-    { text: 'Hash', value: 'hash' },
-    { text: 'Block Number', value: 'blockNumber' },
-    { text: 'Transaction', value: 'transaction' },
-    { text: 'Address', value: 'address'}
+    { text: 'Hash', value: QUERY_TYPES.HASH },
+    { text: 'Block Number', value: QUERY_TYPES.BLOCK_NUMBER },
+    { text: 'Transaction', value: QUERY_TYPES.TRANSACTION },
+    { text: 'Address', value: QUERY_TYPES.ADDRESS}
   ];
 
   const _setHash = useCallback(
@@ -48,16 +62,16 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
 
   const getQueryUrl = useCallback((queryType: string, queryValue: string): string => {
     switch (queryType) {
-      case 'hash':
-        return `/explorer/query/${queryValue}`;
-      case 'blockNumber':
-        return `/explorer/query/${queryValue}`;
-      case 'transaction':
-        return `/extrinsics/decode/${queryValue}`;
-      case 'address':
-        return `/explorer/account-query/${queryValue}`;
+      case QUERY_TYPES.HASH:
+        return `${URL_PATHS.EXPLORER_QUERY}/${queryValue}`;
+      case QUERY_TYPES.BLOCK_NUMBER:
+        return `${URL_PATHS.EXPLORER_QUERY}/${queryValue}`;
+      case QUERY_TYPES.TRANSACTION:
+        return `${URL_PATHS.EXTRINSICS_DECODE}/${queryValue}`;
+      case QUERY_TYPES.ADDRESS:
+        return `${URL_PATHS.EXPLORER_ACCOUNT_QUERY}/${queryValue}`;
       default:
-        return `/dashboard/query/${queryValue}`;
+        return `${URL_PATHS.DASHBOARD_QUERY}/${queryValue}`;
     }
   }, []);
 
