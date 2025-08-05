@@ -5,6 +5,7 @@ import React from 'react';
 import { styled } from '@polkadot/react-components';
 import useChartEstate from "./hooks/use-chart-estate.js";
 import useTickerEstate from "./hooks/use-ticker-estate.js";
+import AccountBlock from './components/AccountBlock/index.js';
 
 interface Props {
   basePath: string;
@@ -17,6 +18,7 @@ function DashboardApp ({ className }: Props): React.ReactElement<Props> {
 
   return (
     <StyledMain className={className}>
+      <AccountBlock address={'5D2GXMrXxeEP6uMgGqrb2rZ9WdKV978bmqT1hnchMS9pyQGw'} />
       <div className={"graphWrapper"}>
         <div ref={chartEstateRef}/>
         <div ref={tickerEstateRef}/>
@@ -38,6 +40,5 @@ const StyledMain = styled.main`
     }
   }
 `;
-
 
 export default React.memo(DashboardApp);

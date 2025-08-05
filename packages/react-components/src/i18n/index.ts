@@ -7,7 +7,7 @@ import i18next from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
-import { LANGUAGE_DEFAULT, settings } from '@polkadot/ui-settings';
+import { settings } from '@polkadot/ui-settings';
 
 import Backend from './Backend.js';
 
@@ -53,6 +53,7 @@ i18next
       'app-claims',
       'app-contracts',
       'app-council',
+      'app-dashboard',
       'app-democracy',
       'app-explorer',
       'app-extrinsics',
@@ -90,7 +91,7 @@ i18next
     console.log('i18n: failure', error)
   );
 
-settings.on('change', (settings): void => {
+settings.on('change', (): void => {
   // Always set English language regardless of settings
   i18next.changeLanguage('en').catch(console.error);
 });
