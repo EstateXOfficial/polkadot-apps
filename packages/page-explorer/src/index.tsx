@@ -68,6 +68,12 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
       name: 'account-query',
       text: t('Account Information')
     },
+    {
+      hasParams: true,
+      isHidden: true,
+      name: 'decode',
+      text: t('Decoder')
+    },
   ];
 }
 
