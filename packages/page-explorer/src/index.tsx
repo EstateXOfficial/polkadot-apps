@@ -4,7 +4,7 @@
 import type { TabItem } from '@polkadot/react-components/types';
 import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 
-import React, { useMemo, useRef } from 'react';
+import React, {useMemo, useRef, useState} from 'react';
 import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
@@ -19,6 +19,9 @@ import NodeInfo from './NodeInfo/index.js';
 import Forks from './Forks.js';
 import Main from './Main.js';
 import { useTranslation } from './translate.js';
+import type {DecodedExtrinsic} from "@polkadot/app-extrinsics/src/types.js";
+import Decoder from './Decoder.js';
+import Dashboard from './Dashboard.js';
 
 interface Props {
   basePath: string;
@@ -28,6 +31,10 @@ interface Props {
 
 function createItemsRef (t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
   return [
+    {
+      name: 'dashboard',
+      text: 'Dashboard',
+    },
     {
       isRoot: true,
       name: 'chain',
@@ -60,6 +67,11 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
       isHidden: true,
       name: 'account-query',
       text: t('Account Information')
+    },
+    {
+      hasParams: true,
+      name: 'decode',
+      text: 'Decoder',
     }
   ];
 }
@@ -70,6 +82,7 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
   const { lastHeaders } = useBlockAuthors();
   const { eventCount, events } = useBlockEvents();
   const itemsRef = useRef(createItemsRef(t));
+  const [decoded, setDecoded] = useState<DecodedExtrinsic | null>(null);
 
   const hidden = useMemo<string[]>(
     () => isFunction(api.query.babe?.authorities) ? [] : ['forks'],
@@ -85,6 +98,10 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
       />
       <Routes>
         <Route path={basePath}>
+          <Route
+            element={<Dashboard basePath={basePath} />}
+            path='dashboard'
+          />
           <Route
             element={<Api />}
             path='api'
@@ -108,6 +125,15 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
           <Route
             element={<AccountBlock />}
             path='account-query/:value?'
+          />
+          <Route
+            element={
+              <Decoder
+                defaultValue={decoded?.hex}
+                setLast={setDecoded}
+              />
+            }
+            path='decode/:encoded?'
           />
           <Route
             element={

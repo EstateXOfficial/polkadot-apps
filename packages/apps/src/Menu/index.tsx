@@ -7,7 +7,7 @@ import type { AccountId } from '@polkadot/types/interfaces';*/
 import type { ItemRoute } from './types.js';
 
 import React, { useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 
 // import createRoutes from '@polkadot/apps-routing';
 import { styled } from '@polkadot/react-components';
@@ -99,7 +99,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const apiProps = useApi();
 /*  const { allowTeleport } = useTeleport();
   const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key);*/
-  const location = useLocation();
+  // const location = useLocation();
 
   const externalRef = useRef(createExternals(t));
   /*const routeRef = useRef(createRoutes(t));
@@ -133,19 +133,10 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   return (
     <StyledDiv className={`${className}${(!apiProps.isApiReady || !apiProps.isApiConnected) ? ' isLoading' : ''}`}>
       <div className='menuContainer'>
-        <Link to={'/dashboard'}>
+        <Link to={'/explorer/dashboard'}>
           <Logo />
         </Link>
         <div className='menuSection'>
-          <Link
-            style={{
-              color: '#FFF',
-              textDecoration: location.pathname.startsWith('/explorer') ? 'underline' : 'none'
-            }}
-            to={'/explorer'}
-          >
-            Explorer
-          </Link>
 {/*
           <ChainInfo />
 */}

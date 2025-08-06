@@ -52,7 +52,7 @@ function DecodedInspect ({ className, hex, inspect, label }: Props): React.React
   const [link, path] = useMemo(
     (): [null | string, null | string] => {
       if (hex) {
-        const path = `/extrinsics/decode/${hex}`;
+        const path = `/explorer/decode/${hex}`;
 
         return [createLink(path), `#${path}`];
       }
