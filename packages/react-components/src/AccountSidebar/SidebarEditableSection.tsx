@@ -73,7 +73,7 @@ function SidebarEditableSection ({ accountIndex, address, isBeingEdited, onUpdat
         />
       </div>
       <Flags flags={flags} />
-      <AccountMenuButtons
+      {/*<AccountMenuButtons
         flags={flags}
         isEditing={isEditing()}
         isEditingName={isEditingName}
@@ -85,7 +85,7 @@ function SidebarEditableSection ({ accountIndex, address, isBeingEdited, onUpdat
         recipientId={address}
         toggleIsEditingName={toggleIsEditingName}
         toggleIsEditingTags={toggleIsEditingTags}
-      />
+      />*/}
     </>
   );
 }
