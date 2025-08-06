@@ -70,7 +70,7 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
 
   const link = useMemo(
     () => withLink
-      ? `#/extrinsics/decode/${value.toHex()}`
+      ? `#/explorer/decode/${value.toHex()}`
       : null,
     [value, withLink]
   );

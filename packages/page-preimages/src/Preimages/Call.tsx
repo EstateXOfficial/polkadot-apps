@@ -24,7 +24,7 @@ function PreimageCall ({ className = '', value }: Props): React.ReactElement<Pro
   const link = useMemo(
     () =>
       value?.proposal
-        ? `#/extrinsics/decode/${value?.proposal?.toHex()}`
+        ? `#/explorer/decode/${value?.proposal?.toHex()}`
         : null,
     [value]
   );
