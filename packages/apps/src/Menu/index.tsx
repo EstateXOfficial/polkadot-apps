@@ -146,16 +146,6 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
           >
             Explorer
           </Link>
-          <Link
-            style={{
-              color: '#FFF',
-              marginLeft: 15,
-              textDecoration: location.pathname.startsWith('/extrinsics') ? 'underline' : 'none'
-            }}
-            to={'/extrinsics'}
-          >
-            Transaction
-          </Link>
 {/*
           <ChainInfo />
 */}
