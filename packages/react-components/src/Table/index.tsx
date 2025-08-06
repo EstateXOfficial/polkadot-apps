@@ -130,6 +130,10 @@ const StyledDiv = styled.div`
     width: 100%;
     z-index: 1;
 
+    .start h1 {
+      text-transform: capitalize;
+    }
+
     &.isFixed {
       table-layout: fixed;
     }
