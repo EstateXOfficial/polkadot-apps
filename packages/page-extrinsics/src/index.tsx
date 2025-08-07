@@ -4,16 +4,16 @@
 import type { AppProps as Props, /*TabItem*/ } from '@polkadot/react-components/types';
 import type { DecodedExtrinsic } from './types.js';
 
-import React, { useState } from 'react';
+import React, {useRef, useState} from 'react';
 import { Route, Routes } from 'react-router';
 
-// import { Tabs } from '@polkadot/react-components';
+ import { Tabs } from '@polkadot/react-components';
 
 import Decoder from './Decoder.js';
 import Submission from './Submission.js';
-// import { useTranslation } from './translate.js';
+import { useTranslation } from './translate.js';
 
-/*function createItemsRef (t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
+function createItemsRef (t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
   return [
     {
       isRoot: true,
@@ -26,19 +26,19 @@ import Submission from './Submission.js';
       text: t('Decode')
     }
   ];
-}*/
+}
 
 function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
-  // const { t } = useTranslation();
+  const { t } = useTranslation();
   const [decoded, setDecoded] = useState<DecodedExtrinsic | null>(null);
-  // const itemsRef = useRef(createItemsRef(t));
+  const itemsRef = useRef(createItemsRef(t));
 
   return (
     <main className='extrinsics--App'>
-{/*      <Tabs
+      <Tabs
         basePath={basePath}
         items={itemsRef.current}
-      />*/}
+      />
       <Routes>
         <Route path={basePath}>
           <Route

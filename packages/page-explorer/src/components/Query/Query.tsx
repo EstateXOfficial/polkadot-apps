@@ -46,10 +46,11 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
   const [{ value }, setState] = useState(() => stateFromValue(propsValue || ''));
 
   const options: Option[] = [
-    { text: 'Hash', value: QUERY_TYPES.HASH },
+    { text: 'Block Hash', value: QUERY_TYPES.HASH },
     { text: 'Block Number', value: QUERY_TYPES.BLOCK_NUMBER },
-    { text: 'Transaction', value: QUERY_TYPES.TRANSACTION },
-    { text: 'Address', value: QUERY_TYPES.ADDRESS}
+    { text: 'Transaction Hash', value: QUERY_TYPES.TRANSACTION },
+    { text: 'Address', value: QUERY_TYPES.ADDRESS},
+    { text: 'Call data', value: QUERY_TYPES.TRANSACTION}
   ];
 
   const _setHash = useCallback(
