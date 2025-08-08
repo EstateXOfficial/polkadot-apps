@@ -10,7 +10,8 @@ const QUERY_TYPES = {
   HASH: 'hash',
   BLOCK_NUMBER: 'blockNumber',
   TRANSACTION: 'transaction',
-  ADDRESS: 'address'
+  ADDRESS: 'address',
+  CALL_DATE: 'callDate',
 } as const;
 
 const URL_PATHS = {
@@ -46,11 +47,11 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
   const [{ value }, setState] = useState(() => stateFromValue(propsValue || ''));
 
   const options: Option[] = [
-    { text: 'Block Hash', value: QUERY_TYPES.HASH },
-    { text: 'Block Number', value: QUERY_TYPES.BLOCK_NUMBER },
-    { text: 'Transaction Hash', value: QUERY_TYPES.TRANSACTION },
-    { text: 'Address', value: QUERY_TYPES.ADDRESS},
-    { text: 'Call data', value: QUERY_TYPES.TRANSACTION}
+    {text: 'Block Hash', value: QUERY_TYPES.HASH},
+    {text: 'Block Number', value: QUERY_TYPES.BLOCK_NUMBER},
+    {text: 'Transaction Hash', value: QUERY_TYPES.TRANSACTION},
+    {text: 'Address', value: QUERY_TYPES.ADDRESS},
+    {text: 'Call data', value: QUERY_TYPES.CALL_DATE}
   ];
 
   const _setHash = useCallback(
@@ -71,6 +72,8 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
         return `${URL_PATHS.EXTRINSICS_DECODE}/${queryValue}`;
       case QUERY_TYPES.ADDRESS:
         return `${URL_PATHS.EXPLORER_ACCOUNT_QUERY}/${queryValue}`;
+      case QUERY_TYPES.CALL_DATE:
+        return `${URL_PATHS.EXTRINSICS_DECODE}/${queryValue}`;
       default:
         return `${URL_PATHS.DASHBOARD_QUERY}/${queryValue}`;
     }
