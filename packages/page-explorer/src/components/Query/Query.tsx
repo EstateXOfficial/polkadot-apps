@@ -1,10 +1,10 @@
 // Copyright 2017-2025 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useCallback, useState } from 'react';
+import React, {useCallback, useState} from 'react';
 
-import { Dropdown, Input, styled } from '@polkadot/react-components';
-import { isHex } from '@polkadot/util';
+import {Dropdown, Input, styled} from '@polkadot/react-components';
+import {isHex} from '@polkadot/util';
 
 const QUERY_TYPES = {
   HASH: 'hash',
@@ -36,22 +36,22 @@ interface Option {
   value: string;
 }
 
-function stateFromValue (value: string): State {
+function stateFromValue(value: string): State {
   return {
     isValid: isHex(value, 256) || /^\d+$/.test(value),
     value
   };
 }
 
-function Query ({ className = '', value: propsValue }: Props): React.ReactElement<Props> {
-  const [{ value }, setState] = useState(() => stateFromValue(propsValue || ''));
+function Query({className = '', value: propsValue}: Props): React.ReactElement<Props> {
+  const [{value}, setState] = useState(() => stateFromValue(propsValue || ''));
 
   const options: Option[] = [
     {text: 'Block Hash', value: QUERY_TYPES.HASH},
     {text: 'Block Number', value: QUERY_TYPES.BLOCK_NUMBER},
     {text: 'Transaction Hash', value: QUERY_TYPES.TRANSACTION},
     {text: 'Address', value: QUERY_TYPES.ADDRESS},
-    {text: 'Call data', value: QUERY_TYPES.CALL_DATE}
+    {text: 'Call Data (Hex-encoded)', value: QUERY_TYPES.CALL_DATE}
   ];
 
   const _setHash = useCallback(
@@ -91,7 +91,7 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
 
   return (
     <StyledFDiv className={`${className}`}>
-      <Dropdown options={options} value={queryOpt} onChange={setQueryOpt} className='dashboard--dropdown' />
+      <Dropdown options={options} value={queryOpt} onChange={setQueryOpt} className='dashboard--dropdown'/>
       <Input
         className='dashboard--query'
         defaultValue={propsValue}
