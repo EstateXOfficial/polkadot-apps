@@ -16,7 +16,7 @@ const StyledQueryContainer = styled.div`
     border-radius: 6px;
   }
 
-  @media screen and (min-width: 1441px) {
+  @media screen and (min-width: 1025px) {
     grid-template-columns: 3fr 1fr;
   }
 `;
