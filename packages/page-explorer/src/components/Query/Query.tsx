@@ -115,7 +115,6 @@ function Query({className = '', value: propsValue}: Props): React.ReactElement<P
 
 const StyledFDiv = styled.div`
   display: flex;
-  margin-top: 1rem;
 
   .dashboard--dropdown {
     padding: 0 !important;

@@ -20,10 +20,10 @@ function DashboardApp ({ className }: Props): React.ReactElement<Props> {
 
   return (
     <StyledMain className={className}>
-      <Query />
+      <Query/>
       <div className={'graphWrapper'}>
-        <div ref={chartEstateRef} />
-        <div ref={tickerEstateRef} />
+        <div ref={chartEstateRef}/>
+        <div ref={tickerEstateRef}/>
       </div>
     </StyledMain>
   );
