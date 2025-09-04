@@ -6,6 +6,7 @@ import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 
 import React, {useMemo, useRef, useState} from 'react';
 import { Route, Routes } from 'react-router';
+import { Navigate } from 'react-router-dom';
 
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useBlockAuthors, useBlockEvents } from '@polkadot/react-hooks';
@@ -22,6 +23,7 @@ import { useTranslation } from './translate.js';
 import type {DecodedExtrinsic} from "@polkadot/app-extrinsics/src/types.js";
 import Decoder from './Decoder.js';
 import Dashboard from './Dashboard.js';
+import Transaction from './Transaction.js';
 
 interface Props {
   basePath: string;
@@ -74,6 +76,11 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
       name: 'decode',
       text: t('Decoder')
     },
+    {
+      hasParams: true,
+      name: 'transaction',
+      text: t('Transaction details')
+    }
   ];
 }
 
@@ -124,8 +131,16 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
             path='query/:value?'
           />
           <Route
+            element={<Transaction />}
+            path='transaction/:txHash'
+          />
+          <Route
             element={<AccountBlock />}
             path='account-query/:value?'
+          />
+          <Route
+            path="transaction"
+            element={<Navigate to={`${basePath}/dashboard`} replace />}
           />
           <Route
             element={

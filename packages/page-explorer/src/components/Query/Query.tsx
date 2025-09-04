@@ -18,7 +18,8 @@ const URL_PATHS = {
   EXPLORER_QUERY: '/explorer/query',
   EXTRINSICS_DECODE: '/explorer/decode',
   EXPLORER_ACCOUNT_QUERY: '/explorer/account-query',
-  DASHBOARD_QUERY: '/explorer'
+  DASHBOARD_QUERY: '/explorer',
+  TRANSACTION: '/explorer/transaction'
 } as const;
 
 interface Props {
@@ -69,7 +70,7 @@ function Query({className = '', value: propsValue}: Props): React.ReactElement<P
       case QUERY_TYPES.BLOCK_NUMBER:
         return `${URL_PATHS.EXPLORER_QUERY}/${queryValue}`;
       case QUERY_TYPES.TRANSACTION:
-        return `${URL_PATHS.EXTRINSICS_DECODE}/${queryValue}`;
+        return `${URL_PATHS.TRANSACTION}/${queryValue}`;
       case QUERY_TYPES.ADDRESS:
         return `${URL_PATHS.EXPLORER_ACCOUNT_QUERY}/${queryValue}`;
       case QUERY_TYPES.CALL_DATE:
