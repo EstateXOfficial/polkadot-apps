@@ -29,7 +29,7 @@ interface ExtrinsicData {
 
 const EMPTY_HEADER: [React.ReactNode?, string?, number?][] = [['...', 'start', 6]];
 
-async function fetchBlockNumberByTx(txHash: string): Promise<string> {
+export async function fetchBlockNumberByTx(txHash: string): Promise<string> {
   try {
     const SUBQUERY_GRAPHQL = process.env.REACT_APP_SUBQUERY_GRAPHQL;
     if (!SUBQUERY_GRAPHQL) {
