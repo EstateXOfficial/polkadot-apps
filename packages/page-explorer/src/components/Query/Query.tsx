@@ -5,14 +5,19 @@ import React, {useCallback, useState} from 'react';
 
 import {Dropdown, Input, styled} from '@polkadot/react-components';
 import {isHex} from '@polkadot/util';
+import { useApi } from '@polkadot/react-hooks';
+import type { ApiPromise } from '@polkadot/api';
+import { fetchBlockNumberByTx } from '@polkadot/app-explorer/Transaction';
 
 const QUERY_TYPES = {
-  HASH: 'hash',
+  BLOCK_HASH: 'hash',
   BLOCK_NUMBER: 'blockNumber',
-  TRANSACTION: 'transaction',
+  TRANSACTION_HASH: 'transaction',
   ADDRESS: 'address',
-  CALL_DATE: 'callDate',
+  CALL_DATA: 'callData',
 } as const;
+
+type QueryType = typeof QUERY_TYPES[keyof typeof QUERY_TYPES];
 
 const URL_PATHS = {
   EXPLORER_QUERY: '/explorer/query',
@@ -37,6 +42,74 @@ interface Option {
   value: string;
 }
 
+async function detectHashType(api: ApiPromise, hash: string): Promise<'blockHash' | 'transactionHash' | 'unknown'> {
+  const origConsoleError = console.error;
+  const origConsoleWarn = console.warn;
+  console.error = () => {};
+  console.warn = () => {};
+  try {
+    try {
+      const header = await api.rpc.chain.getHeader(hash);
+      if (header?.number)
+        return 'blockHash';
+    } catch {}
+  } finally {
+    console.error = origConsoleError;
+    console.warn = origConsoleWarn;
+  }
+
+  try {
+    const blockNumber = await fetchBlockNumberByTx(hash);
+
+    if (blockNumber) {
+      return 'transactionHash';
+    }
+  } catch {}
+
+  return 'unknown';
+}
+
+function detectQueryType(api: ApiPromise, value: string, onRefined?: (type: QueryType) => void): string {
+  if (!value) {
+    return QUERY_TYPES.BLOCK_HASH;
+  }
+
+  // Check for 0x and remaining 64 symbols
+  if (/^0x[0-9a-fA-F]{64}$/.test(value)) {
+    (async () => {
+      const refined = await detectHashType(api, value);
+      if (refined === 'blockHash') {
+        onRefined?.(QUERY_TYPES.BLOCK_HASH);
+      } else if (refined === 'transactionHash') {
+        onRefined?.(QUERY_TYPES.TRANSACTION_HASH);
+      }
+    })();
+
+    return QUERY_TYPES.BLOCK_HASH;
+  }
+
+  // Check for hex value starting with 0x.
+  // Odd check was added so that it wouldn't jump from block hash to call data
+  if (isHex(value) && value.length % 2 === 1) {
+    return QUERY_TYPES.CALL_DATA;
+  }
+
+  // Check for decimal digits
+  if (/^\d+$/.test(value)) {
+    const num = Number(value);
+    if (!isNaN(num) && num > 0 && num < 5_000_000_000) {
+      return QUERY_TYPES.BLOCK_NUMBER;
+    }
+  }
+
+  // Check for first 1 or 5 digit and then up to 47 symbols
+  if (/^[1|5][1-9A-HJ-NP-Za-km-z]{0,47}$/.test(value)) {
+    return QUERY_TYPES.ADDRESS;
+  }
+
+  return QUERY_TYPES.BLOCK_HASH;
+}
+
 function stateFromValue(value: string): State {
   return {
     isValid: isHex(value, 256) || /^\d+$/.test(value),
@@ -46,18 +119,27 @@ function stateFromValue(value: string): State {
 
 function Query({className = '', value: propsValue}: Props): React.ReactElement<Props> {
   const [{value}, setState] = useState(() => stateFromValue(propsValue || ''));
+  const { api } = useApi();
 
   const options: Option[] = [
-    {text: 'Block Hash', value: QUERY_TYPES.HASH},
+    {text: 'Block Hash', value: QUERY_TYPES.BLOCK_HASH},
     {text: 'Block Number', value: QUERY_TYPES.BLOCK_NUMBER},
-    {text: 'Transaction Hash', value: QUERY_TYPES.TRANSACTION},
+    {text: 'Transaction Hash', value: QUERY_TYPES.TRANSACTION_HASH},
     {text: 'Address', value: QUERY_TYPES.ADDRESS},
-    {text: 'Call Data (Hex-encoded)', value: QUERY_TYPES.CALL_DATE}
+    {text: 'Call Data (Hex-encoded)', value: QUERY_TYPES.CALL_DATA}
   ];
 
   const _setHash = useCallback(
-    (value: string): void => setState(stateFromValue(value)),
-    []
+    (value: string): void => {
+      setState(stateFromValue(value));
+
+      const initialType = detectQueryType(api, value, (refinedType) => {
+        setQueryOpt(refinedType);
+      });
+
+      setQueryOpt(initialType);
+    },
+    [api]
   );
 
   const [queryOpt, setQueryOpt] = useState<string>(options[0].value);
@@ -65,15 +147,15 @@ function Query({className = '', value: propsValue}: Props): React.ReactElement<P
 
   const getQueryUrl = useCallback((queryType: string, queryValue: string): string => {
     switch (queryType) {
-      case QUERY_TYPES.HASH:
+      case QUERY_TYPES.BLOCK_HASH:
         return `${URL_PATHS.EXPLORER_QUERY}/${queryValue}`;
       case QUERY_TYPES.BLOCK_NUMBER:
         return `${URL_PATHS.EXPLORER_QUERY}/${queryValue}`;
-      case QUERY_TYPES.TRANSACTION:
+      case QUERY_TYPES.TRANSACTION_HASH:
         return `${URL_PATHS.TRANSACTION}/${queryValue}`;
       case QUERY_TYPES.ADDRESS:
         return `${URL_PATHS.EXPLORER_ACCOUNT_QUERY}/${queryValue}`;
-      case QUERY_TYPES.CALL_DATE:
+      case QUERY_TYPES.CALL_DATA:
         return `${URL_PATHS.EXTRINSICS_DECODE}/${queryValue}`;
       default:
         return `${URL_PATHS.DASHBOARD_QUERY}/${queryValue}`;

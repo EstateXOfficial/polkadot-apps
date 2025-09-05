@@ -29,9 +29,9 @@ interface ExtrinsicData {
 
 const EMPTY_HEADER: [React.ReactNode?, string?, number?][] = [['...', 'start', 6]];
 
-async function fetchBlockNumberByTx(txHash: string): Promise<string> {
+export async function fetchBlockNumberByTx(txHash: string): Promise<string> {
   try {
-    const SUBQUERY_GRAPHQL = process.env.REACT_APP_SUBQUERY_GRAPHQL;
+    const SUBQUERY_GRAPHQL = process.env.SUBQUERY_GRAPHQL;
     if (!SUBQUERY_GRAPHQL) {
       throw new Error('subquery service is not defined');
     }
@@ -69,7 +69,7 @@ export default function Transaction({ className = '', error, value }: Props): Re
   const { txHash } = useParams<{ txHash: string }>();
   const mountedRef = useIsMountedRef();
 
-  const [block, setBlock] = useState<SignedBlock | null>(null);
+  const [block, setBlock] = useState<SignedBlock | undefined>(undefined);
   const [header, setHeader] = useState<HeaderExtended | null>(null);
   const [extrinsicData, setExtrinsicData] = useState<ExtrinsicData | null>(null);
   const [events, setEvents] = useState<KeyedEvent[] | null>(null);
@@ -236,7 +236,7 @@ export default function Transaction({ className = '', error, value }: Props): Re
         { blkError ? (
             <tr>
               <td colSpan={6}>
-              <MarkError content={t('Unable to retrieve the specified transaction details. {{error}}', { replace: { error: (blkError as Error).message } })} />
+              <MarkError content={t('Unable to retrieve the specified transaction details. {{error}}', { replace: { error: blkError instanceof Error ? blkError.message : String(blkError) } })} />
             </td>
             </tr>
           ) : (
