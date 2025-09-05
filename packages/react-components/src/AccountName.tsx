@@ -253,7 +253,7 @@ const StyledSpan = styled.span`
   .isAddress {
     display: inline-block;
     min-width: var(--width-shortaddr);
-    max-width: var(--width-shortaddr);
+    max-width: var(--width-mediumaddr);
     overflow: hidden;
     text-overflow: ellipsis;
     text-transform: none;
