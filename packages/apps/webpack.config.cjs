@@ -8,6 +8,7 @@ const { merge } = require('webpack-merge');
 const { SubresourceIntegrityPlugin } = require('webpack-subresource-integrity');
 
 const baseConfig = require('./webpack.base.cjs');
+const webpack = require('webpack');
 
 const context = __dirname;
 const hasPublic = fs.existsSync(path.join(context, 'public'));
@@ -25,6 +26,9 @@ module.exports = merge(
         PAGE_TITLE: 'ESX Testnet Block Explorer',
         minify: false,
         template: path.join(context, `${hasPublic ? 'public/' : ''}index.html`)
+      }),
+      new webpack.DefinePlugin({
+        'process.env.SUBQUERY_GRAPHQL' : JSON.stringify(process.env.SUBQUERY_GRAPHQL)
       })
     ]
   }

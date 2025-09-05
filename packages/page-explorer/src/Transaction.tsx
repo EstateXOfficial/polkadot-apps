@@ -31,7 +31,7 @@ const EMPTY_HEADER: [React.ReactNode?, string?, number?][] = [['...', 'start', 6
 
 export async function fetchBlockNumberByTx(txHash: string): Promise<string> {
   try {
-    const SUBQUERY_GRAPHQL = process.env.REACT_APP_SUBQUERY_GRAPHQL;
+    const SUBQUERY_GRAPHQL = process.env.SUBQUERY_GRAPHQL;
     if (!SUBQUERY_GRAPHQL) {
       throw new Error('subquery service is not defined');
     }
