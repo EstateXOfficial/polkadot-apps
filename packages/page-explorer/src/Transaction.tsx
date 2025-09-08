@@ -31,10 +31,7 @@ const EMPTY_HEADER: [React.ReactNode?, string?, number?][] = [['...', 'start', 6
 
 export async function fetchBlockNumberByTx(txHash: string): Promise<string> {
   try {
-    const SUBQUERY_GRAPHQL = process.env.SUBQUERY_GRAPHQL;
-    if (!SUBQUERY_GRAPHQL) {
-      throw new Error('subquery service is not defined');
-    }
+    const SUBQUERY_GRAPHQL = process.env.SUBQUERY_GRAPHQL ?? "/api/graphql";
 
     const query = `
       {
@@ -49,6 +46,10 @@ export async function fetchBlockNumberByTx(txHash: string): Promise<string> {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query })
     });
+
+    if (!res.ok) {
+      throw new Error(`GraphQL request failed with status ${res.status}`);
+    }
 
     const json = await res.json();
     const blockNumber = json?.data?.txIndex?.blockNumber?.toString();
