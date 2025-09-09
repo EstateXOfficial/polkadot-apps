@@ -12,7 +12,7 @@ import Summary from './BlockInfo/Summary.js';
 import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { EventRecord, Hash, RuntimeVersionPartial, SignedBlock } from '@polkadot/types/interfaces';
 
-import { formatBalance, formatNumber, isBn } from '@polkadot/util';
+import { formatBalance, formatNumber, isBn, u8aToHex } from '@polkadot/util';
 
 interface Props {
   className?: string;
@@ -20,12 +20,32 @@ interface Props {
   value?: string | null;
 }
 
-interface ExtrinsicData {
+interface ExtrinsicDataTransfer {
+  type: 'transfer';
   from: string;
   to: string;
   amount: string;
   fee: string;
 }
+
+interface ExtrinsicDataTimestamp {
+  type: 'timestamp';
+  from: string;
+  time: string;
+  timestamp: string;
+  callIndex: string;
+}
+
+interface ExtrinsicDataOther {
+  type: 'other';
+  from: string;
+  details: string;
+}
+
+type ExtrinsicData =
+  | ExtrinsicDataTransfer
+  | ExtrinsicDataTimestamp
+  | ExtrinsicDataOther;
 
 const EMPTY_HEADER: [React.ReactNode?, string?, number?][] = [['...', 'start', 6]];
 
@@ -126,26 +146,64 @@ export default function Transaction({ className = '', error, value }: Props): Re
           return;
         }
 
+        const call = extrinsicFound.method;
         const from = extrinsicFound.signer?.toString() || 'unknown';
-        let to = 'unknown';
-        let amount = 'unknown';
-        let fee = extrinsicFound.tip?.toString() || 'unknown';
+        let extrinsicData: ExtrinsicData;
 
-        const method = extrinsicFound.method.toJSON() as any;
-        if (method?.args?.dest) {
-          to = typeof method.args.dest === 'object' && method.args.dest.id ? method.args.dest.id : method.args.dest;
-        }
-        if (method?.args?.value) {
-          amount = formatBalance(method.args.value, { forceUnit: '-', withAll: true, withSi: false });
-        }
+        if (call.section === 'balances' && call.method.startsWith('transfer')) {
+          const argsArray = Object.values(call.args);
 
+          const to = argsArray[0]?.toString() ?? 'unknown';
+
+          const valueRaw = argsArray[1];
+          const amount = valueRaw
+            ? formatBalance((valueRaw as any).toBn(), { forceUnit: '-', withAll: true, withSi: false })
+            : 'unknown';
+
+          const fee = extrinsicFound.tip?.toString() || 'unknown';
+
+          extrinsicData = {
+            type: 'transfer',
+            from,
+            to,
+            amount,
+            fee
+          };
+        }else if (call.section === 'timestamp' && call.method === 'set') {
+          const argsArray = Object.values(call.args);
+          const nowRaw = argsArray[0];
+
+          let nowNumber: number | null = null;
+          try {
+            nowNumber = (nowRaw as any).toNumber?.() ?? Number((nowRaw as any).toString?.());
+          } catch {
+          }
+
+          const dateString = nowNumber ? new Date(nowNumber).toLocaleString() : 'unknown';
+          const timestamp = nowNumber ?? 'unknown';
+
+          extrinsicData = {
+            type: 'timestamp',
+            from,
+            time: dateString,
+            timestamp: String(timestamp),
+            callIndex: u8aToHex(call.callIndex)
+          };
+
+        } else {
+          extrinsicData = {
+            type: 'other',
+            from,
+            details: call.toJSON()
+          };
+        }
         const evt = await api.at(blockHash).then(apiAt =>
           apiAt.query.system.events().catch(() => [])
         );
 
         safeSet(setBlock)(signedBlock);
         safeSet(setHeader)(header);
-        safeSet(setExtrinsicData)({ from, to, amount, fee });
+        safeSet(setExtrinsicData)(extrinsicData);
         safeSet(setEvents)(transformEvents(evt));
         safeSet(setRuntimeVersion)(api.runtimeVersion);
       } catch (err) {
@@ -188,17 +246,6 @@ export default function Transaction({ className = '', error, value }: Props): Re
       convertWeight(api.consts.system.blockWeights.maxBlock).v2Weight;
   }, [api, runtimeVersion]);
 
-
-  const extrinsicDisplay = useMemo(() => {
-    if (!extrinsicData) return { from: 'unknown', to: 'unknown', amount: 'unknown', fee: 'unknown' };
-    return {
-      from: typeof extrinsicData.from === 'object' ? JSON.stringify(extrinsicData.from) : extrinsicData.from,
-      to: typeof extrinsicData.to === 'object' ? JSON.stringify(extrinsicData.to) : extrinsicData.to,
-      amount: extrinsicData.amount,
-      fee: extrinsicData.fee
-    };
-  }, [extrinsicData]);
-
   
   const blockNumber = header?.number?.unwrap();
   const blockHashHex = header?.hash?.toHex();
@@ -223,13 +270,64 @@ export default function Transaction({ className = '', error, value }: Props): Re
 
   if (!txHash) return <Navigate to="/explorer/dashboard" replace />;
 
-  const extrinsicHeader: [React.ReactNode, string?, number?][] = [
-    [t(''), 'hidden-column'],
-    [t('from'), 'start'],
-    [t('to'), 'start'],
-    [t('amount'), 'start'],
-    [t('fee'), 'start']
-  ];
+  let extrinsicHeader: [React.ReactNode, string?, number?][];
+  let extrinsicRow: React.ReactNode;
+
+  if (extrinsicData?.type === 'transfer') {
+    extrinsicHeader = [
+      [t(''), 'hidden-column'],
+      [t('from'), 'start'],
+      [t('to'), 'start'],
+      [t('amount'), 'start'],
+      [t('fee'), 'start']
+    ];
+
+    extrinsicRow = (
+      <tr>
+        <AddressCell value={extrinsicData.from} />
+        <AddressCell value={extrinsicData.to} />
+        <td>{extrinsicData.amount}</td>
+        <td>{extrinsicData.fee}</td>
+      </tr>
+    );
+  } else if (extrinsicData?.type === 'timestamp') {
+    extrinsicHeader = [
+      [t(''), 'hidden-column'],
+      [t('from'), 'start'],
+      [t('time'), 'start'],
+      [t('timestamp'), 'start'],
+      [t('call index'), 'start']
+    ];
+
+    extrinsicRow = (
+      <tr>
+        <AddressCell value={extrinsicData.from} />
+        <td>{extrinsicData.time}</td>
+        <td>{extrinsicData.timestamp}</td>
+        <td>{extrinsicData.callIndex}</td>
+      </tr>
+    );
+  } else if (extrinsicData?.type === 'other') {
+    extrinsicHeader = [
+      [t(''), 'hidden-column'],
+      [t('from'), 'start'],
+      [t('details'), 'start']
+    ];
+
+    extrinsicRow = (
+      <tr>
+        <AddressCell value={extrinsicData.from} />
+        <td>{extrinsicData.details}</td>
+      </tr>
+    );
+  } else {
+    extrinsicHeader = [[t('no data'), 'start']];
+    extrinsicRow = (
+      <tr>
+        <td>{t('No extrinsic data')}</td>
+      </tr>
+    );
+  }
 
   return (
     <div className={className}>
@@ -242,12 +340,7 @@ export default function Transaction({ className = '', error, value }: Props): Re
             </tr>
           ) : (
             <StyledTable header={extrinsicHeader}>
-              <tr>
-                <AddressCell value={extrinsicDisplay.from} />
-                <AddressCell value={extrinsicDisplay.to} />
-                <td>{extrinsicDisplay.amount}</td>
-                <td>{extrinsicDisplay.fee}</td>
-              </tr>
+              {extrinsicRow}
             </StyledTable>
           )
         }
