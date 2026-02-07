@@ -1,5 +1,5 @@
 // Project: polkadot-apps
-// Branch: master
+// Branch: testnet
 // File: preInit.ts
 // Directory: packages/apps/src/
 

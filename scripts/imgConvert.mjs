@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 // Project: polkadot-apps
-// Branch: master
+// Branch: testnet
 // File; imgConvert.mjs
 // Directory: scripts/
 

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 // Project: polkadot-apps
-// Branch: master
+// Branch: testnet
 // File: webpack.config.cjs
 // Directory: packages/apps/
 
