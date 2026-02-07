@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 // Project: polkadot-apps
-// Branch: mainnet
+// Branch: master
 // File: index.ts
 // Directory: packages/apps-config/src/endpoints/
 
@@ -16,10 +16,10 @@ import { expandEndpoints } from './util.js';
 
 // ESX Only Configuration
 const ESX: EndpointOption = {
-  info: 'ESX Mainnet',
-  text: 'ESX Mainnet',
+  info: 'ESX Testnet',
+  text: 'ESX Testnet',
   providers: {
-    'ESX': 'wss://rpc1-weu-mainnet.esx.network'
+    'ESX': 'wss://rpc1-weu-testnet.esx.network'
   }
 };
 
@@ -54,9 +54,9 @@ export function createWsEndpoints (t: TFunction = defaultT, firstOnly = false, w
   // Only return ESX endpoint - nothing else
   return [{
     info: 'esx',
-    text: 'ESX Mainnet',
+    text: 'ESX Testnet',
     textBy: 'ESX Network',
-    value: 'wss://rpc1-weu-mainnet.esx.network',
+    value: 'wss://rpc1-weu-testnet.esx.network',
     ui: {
       color: '#011a22',
       logo: 'substrate'

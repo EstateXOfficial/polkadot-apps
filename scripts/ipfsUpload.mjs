@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 // Project: polkadot-apps
-// Branch: mainnet
+// Branch: master
 // File: ipfsUpload.mjs
 // Directory: scripts/
 //

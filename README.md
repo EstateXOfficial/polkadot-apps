@@ -1,5 +1,5 @@
 // Project: polkadot-apps
-// Branch: mainnet
+// Branch: master
 // File: README.md
 // Directory: / (root)
 
