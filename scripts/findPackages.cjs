@@ -1,5 +1,10 @@
 // Copyright 2017-2025 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+//
+// Project: polkadot-apps
+// Branch: mainnet
+// File: findPackages.cjs
+// Directory: scripts/
 
 const fs = require('node:fs');
 const path = require('node:path');

@@ -1,5 +1,10 @@
 // Copyright 2017-2025 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+//
+// Project: polkadot-apps
+// Branch: mainnet
+// File: eslint.config.js
+// Directory: / (root)
 
 import baseConfig from '@polkadot/dev/config/eslint';
 

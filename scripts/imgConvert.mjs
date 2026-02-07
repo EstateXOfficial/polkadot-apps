@@ -1,5 +1,10 @@
 // Copyright 2017-2025 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+//
+// Project: polkadot-apps
+// Branch: mainnet
+// File; imgConvert.mjs
+// Directory: scripts/
 
 import fs from 'node:fs';
 import path from 'node:path';
