@@ -1,3 +1,8 @@
+// Project: polkadot-apps
+// Branch: master
+// File: preInit.ts
+// Directory: packages/apps/src/
+
 // This runs before anything else
 if (typeof window !== 'undefined') {
   // Clear all settings

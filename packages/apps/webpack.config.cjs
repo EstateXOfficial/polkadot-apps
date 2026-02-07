@@ -1,5 +1,10 @@
 // Copyright 2017-2025 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+//
+// Project: polkadot-apps
+// Branch: master
+// File: webpack.config.cjs
+// Directory: packages/apps/
 
 const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -23,7 +28,7 @@ module.exports = merge(
     plugins: [
       new SubresourceIntegrityPlugin(),
       new HtmlWebpackPlugin({
-        PAGE_TITLE: 'ESX Testnet Block Explorer',
+        PAGE_TITLE: 'ESX TESTNET Blockchain Explorer',
         minify: false,
         template: path.join(context, `${hasPublic ? 'public/' : ''}index.html`)
       }),
