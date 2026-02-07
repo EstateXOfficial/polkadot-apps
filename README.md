@@ -1,3 +1,8 @@
+// Project: polkadot-apps
+// Branch: mainnet
+// File: README.md
+// Directory: / (root)
+
 # @polkadot/apps
 
 A Portal into the Polkadot and Substrate networks. Provides a view and interaction layer from a browser.

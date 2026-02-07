@@ -1,5 +1,10 @@
 // Copyright 2017-2025 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+//
+// Project: polkadot-apps
+// Branch: mainnet
+// File: ipfsUpload.mjs
+// Directory: scripts/
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck Currently we have a bit too many of these
