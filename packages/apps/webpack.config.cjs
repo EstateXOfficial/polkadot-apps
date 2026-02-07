@@ -23,7 +23,7 @@ module.exports = merge(
     plugins: [
       new SubresourceIntegrityPlugin(),
       new HtmlWebpackPlugin({
-        PAGE_TITLE: 'ESX Testnet Block Explorer',
+        PAGE_TITLE: 'ESX Blockchain Explorer',
         minify: false,
         template: path.join(context, `${hasPublic ? 'public/' : ''}index.html`)
       }),

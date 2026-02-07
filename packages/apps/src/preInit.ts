@@ -1,3 +1,8 @@
+// Project: polkadot-apps
+// Branch: mainnet
+// File: preInit.ts
+// Directory: packages/apps/src/
+
 // This runs before anything else
 if (typeof window !== 'undefined') {
   // Clear all settings
@@ -11,7 +16,7 @@ if (typeof window !== 'undefined') {
   keysToRemove.forEach(key => localStorage.removeItem(key));
   
   // Set ESX endpoint
-  window.localStorage.setItem('settings.apiUrl', 'wss://rpc1-weu-testnet.esx.network:443');
+  window.localStorage.setItem('settings.apiUrl', 'wss://rpc1-weu-mainnet.esx.network:443');
   console.log('Pre-init: Set ESX endpoint');
 }
 
