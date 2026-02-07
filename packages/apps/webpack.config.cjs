@@ -1,5 +1,10 @@
 // Copyright 2017-2025 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+//
+// Project: polkadot-apps
+// Branch: mainnet
+// File: webpack.config.cjs
+// Directory: packages/apps/
 
 const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
